@@ -237,7 +237,7 @@
 
     .product-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
       gap: 24px; margin-top: 56px;
     }
 
@@ -290,6 +290,10 @@
     .tag-trade {
       background: rgba(245,183,49,0.12);
       color: var(--gold); border: 1px solid rgba(245,183,49,0.25);
+    }
+    .tag-signal {
+      background: rgba(72,187,120,0.12);
+      color: #48bb78; border: 1px solid rgba(72,187,120,0.25);
     }
 
     .product-name {
@@ -906,9 +910,9 @@
 <section class="products" id="products">
   <div class="section-inner">
     <div class="section-label" data-en="Our Products" data-zh="我们的产品">Our Products</div>
-    <div class="section-title" data-en="Two Platforms. One Edge." data-zh="两个平台，一个优势。">Two Platforms. One Edge.</div>
-    <p class="section-desc" data-en="A tightly integrated research-to-execution pipeline built for quantitative traders who demand precision and reliability." data-zh="为追求精准和可靠的量化交易者打造的完整研究到执行管线。">
-      A tightly integrated research-to-execution pipeline built for quantitative traders who demand precision and reliability.
+    <div class="section-title" data-en="Three Platforms. One Ecosystem." data-zh="三个平台，一个生态。">Three Platforms. One Ecosystem.</div>
+    <p class="section-desc" data-en="Research, execute, and monetize — a fully integrated quant infrastructure from strategy development to a global copy-trading marketplace." data-zh="研究、执行、变现——从策略研发到全球跟单市场的完整量化基础设施。">
+      Research, execute, and monetize — a fully integrated quant infrastructure from strategy development to a global copy-trading marketplace.
     </p>
 
     <div class="product-cards">
@@ -967,6 +971,196 @@
             <li><div><strong data-en="Paper → Live Trading" data-zh="模拟 → 实盘">Paper → Live Trading</strong><span data-en="validate signals safely before going live" data-zh="上线前安全验证信号">validate signals safely before going live</span></div></li>
           </ul>
         </div>
+      </div>
+
+      <!-- Signal Marketplace -->
+      <div class="product-card" style="border-color:rgba(72,187,120,0.2);">
+        <div class="product-card-header" style="background:linear-gradient(160deg,rgba(72,187,120,0.04),transparent);">
+          <div class="product-icon" style="background:rgba(72,187,120,0.12);border-color:rgba(72,187,120,0.3);">
+            <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="13" cy="13" r="4" stroke="#48bb78" stroke-width="1.6"/>
+              <path d="M13 3v3M13 20v3M3 13h3M20 13h3" stroke="#48bb78" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M6.2 6.2l2.1 2.1M17.7 17.7l2.1 2.1M6.2 19.8l2.1-2.1M17.7 8.3l2.1-2.1" stroke="#48bb78" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="product-tag tag-signal" data-en="Signal Marketplace" data-zh="信号市场">Signal Marketplace</div>
+          <div class="product-name" data-en="BitValue Signal" data-zh="BitValue 信号">BitValue Signal</div>
+          <div class="product-desc" data-en="Publish your strategy, grow your subscriber base, and earn revenue — without exposing your source code. Subscribers auto-copy trades or receive real-time signal alerts to their own accounts." data-zh="发布策略、积累订阅者、赚取收益——无需暴露源码。订阅者可自动跟单，也可仅接收实时信号推送。">
+            Publish your strategy, grow your subscriber base, and earn revenue — without exposing your source code. Subscribers auto-copy trades or receive real-time signal alerts to their own accounts.
+          </div>
+        </div>
+        <div class="product-card-body">
+          <ul class="feature-list">
+            <li><div><strong data-en="Strategy Publishing" data-zh="策略发布">Strategy Publishing</strong><span data-en="publish via .so binary — IP fully protected" data-zh="通过 .so 二进制发布，IP 完全保护">publish via .so binary — IP fully protected</span></div></li>
+            <li><div><strong data-en="Copy Trading" data-zh="跟单交易">Copy Trading</strong><span data-en="subscribers auto-execute on their own exchange accounts" data-zh="订阅者在自己账户上自动执行">subscribers auto-execute on their own exchange accounts</span></div></li>
+            <li><div><strong data-en="Signal Push" data-zh="信号推送">Signal Push</strong><span data-en="real-time alerts via app, email, or webhook" data-zh="应用、邮件或 Webhook 实时推送">real-time alerts via app, email, or webhook</span></div></li>
+            <li><div><strong data-en="Revenue Sharing" data-zh="收益分成">Revenue Sharing</strong><span data-en="set your own price, earn monthly subscription income" data-zh="自定义价格，赚取月度订阅收入">set your own price, earn monthly subscription income</span></div></li>
+            <li><div><strong data-en="Performance Dashboard" data-zh="绩效看板">Performance Dashboard</strong><span data-en="live PnL, drawdown, subscriber stats for your strategy" data-zh="实时盈亏、回撤、订阅者统计">live PnL, drawdown, subscriber stats for your strategy</span></div></li>
+            <li><div><strong data-en="Risk-Per-Subscriber" data-zh="订阅者独立风控">Risk-Per-Subscriber</strong><span data-en="each follower sets their own position sizing and stop-loss" data-zh="每位跟单者独立设置仓位和止损">each follower sets their own position sizing and stop-loss</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ MARKETPLACE SECTION ═══════════════════ -->
+<section style="background:var(--navy-800);padding:96px 24px;" id="marketplace">
+  <div class="section-inner">
+    <div class="section-label" style="color:#48bb78;" data-en="Strategy Marketplace" data-zh="策略市场">Strategy Marketplace</div>
+    <div class="section-title" data-en="Monetize Your Alpha." data-zh="让你的 Alpha 变现。">Monetize Your Alpha.</div>
+    <p class="section-desc" data-en="Whether you're a quant developer with a proven edge or a trader looking for reliable signals — BitValue Signal connects strategy creators with followers in a transparent, IP-protected marketplace." data-zh="无论你是有实盘验证策略的量化开发者，还是寻找可靠信号的交易者——BitValue Signal 在透明、IP 保护的市场中连接策略创作者与跟单者。">
+      Whether you're a quant developer with a proven edge or a trader looking for reliable signals — BitValue Signal connects strategy creators with followers in a transparent, IP-protected marketplace.
+    </p>
+
+    <div style="margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;">
+
+      <!-- Creator side -->
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(245,183,49,0.12);border:1px solid rgba(245,183,49,0.3);display:flex;align-items:center;justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l1.4 2.8L13 5.5l-2 1.9.5 2.9L9 9l-2.5 1.3.5-2.9-2-1.9 2.6-.7z" stroke="#F5B731" stroke-width="1.3" stroke-linejoin="round"/><path d="M4 14h10M6 17h6" stroke="#F5B731" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </div>
+          <div style="font-size:15px;font-weight:800;" data-en="For Strategy Creators" data-zh="策略创作者">For Strategy Creators</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="background:var(--navy-700);border:1px solid var(--border-dim);border-radius:12px;padding:18px 20px;">
+            <div style="font-size:13px;font-weight:700;margin-bottom:4px;color:var(--gold);" data-en="1. Backtest & Verify" data-zh="1. 回测验证">1. Backtest & Verify</div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.6;" data-en="Use BitValue Research to prove your strategy's edge across 10+ years of data." data-zh="用 BitValue Research 在 10 年以上数据上验证策略优势。">Use BitValue Research to prove your strategy's edge across 10+ years of data.</div>
+          </div>
+          <div style="background:var(--navy-700);border:1px solid var(--border-dim);border-radius:12px;padding:18px 20px;">
+            <div style="font-size:13px;font-weight:700;margin-bottom:4px;color:var(--gold);" data-en="2. Compile & Protect" data-zh="2. 编译保护">2. Compile & Protect</div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.6;" data-en="Compile to .so with the local SDK. Source code never leaves your machine." data-zh="用本地 SDK 编译为 .so，源码永不离开本机。">Compile to .so with the local SDK. Source code never leaves your machine.</div>
+          </div>
+          <div style="background:var(--navy-700);border:1px solid var(--border-dim);border-radius:12px;padding:18px 20px;">
+            <div style="font-size:13px;font-weight:700;margin-bottom:4px;color:var(--gold);" data-en="3. Publish & Price" data-zh="3. 发布定价">3. Publish & Price</div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.6;" data-en="Set a monthly subscription fee. Your live track record and verified backtest are shown to potential subscribers." data-zh="设定月度订阅费。实盘记录和经过验证的回测结果向潜在订阅者展示。">Set a monthly subscription fee. Your live track record and verified backtest are shown to potential subscribers.</div>
+          </div>
+          <div style="background:var(--navy-700);border:1px solid rgba(245,183,49,0.2);border-radius:12px;padding:18px 20px;">
+            <div style="font-size:13px;font-weight:700;margin-bottom:4px;color:var(--gold);" data-en="4. Earn Recurring Revenue" data-zh="4. 赚取持续收入">4. Earn Recurring Revenue</div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.6;" data-en="Receive monthly payouts automatically. BitValue handles billing, subscriber management, and signal routing." data-zh="自动获得月度收益。BitValue 处理计费、订阅者管理和信号路由。">Receive monthly payouts automatically. BitValue handles billing, subscriber management, and signal routing.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subscriber side -->
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(72,187,120,0.12);border:1px solid rgba(72,187,120,0.3);display:flex;align-items:center;justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9l5 5 7-8" stroke="#48bb78" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div style="font-size:15px;font-weight:800;" data-en="For Signal Subscribers" data-zh="信号订阅者">For Signal Subscribers</div>
+        </div>
+
+        <!-- fake marketplace card -->
+        <div style="background:#080f1c;border:1px solid rgba(72,187,120,0.25);border-radius:16px;overflow:hidden;">
+          <div style="background:#0d1525;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.05);font-size:11px;color:var(--text-muted);display:flex;align-items:center;gap:8px;">
+            <span style="color:#48bb78;font-weight:700;">●</span>
+            <span data-en="BitValue Signal Marketplace" data-zh="BitValue 信号市场">BitValue Signal Marketplace</span>
+          </div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:10px;">
+
+            <!-- strategy card 1 -->
+            <div style="background:var(--navy-700);border:1px solid rgba(72,187,120,0.2);border-radius:10px;padding:14px 16px;">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                <div>
+                  <div style="font-size:13px;font-weight:700;">ETH Trend Master</div>
+                  <div style="font-size:10px;color:var(--text-muted);">ETH/USDT · 15m · Crypto</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:13px;font-weight:800;color:var(--gold);">$49<span style="font-size:10px;font-weight:500;color:var(--text-muted);">/mo</span></div>
+                  <div style="font-size:10px;color:#48bb78;">312 subscribers</div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;">
+                <div style="background:rgba(255,255,255,0.04);border-radius:6px;padding:6px;text-align:center;">
+                  <div style="font-size:11px;font-weight:700;color:#48bb78;">+218%</div>
+                  <div style="font-size:9px;color:var(--text-muted);">1Y Return</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.04);border-radius:6px;padding:6px;text-align:center;">
+                  <div style="font-size:11px;font-weight:700;">2.14</div>
+                  <div style="font-size:9px;color:var(--text-muted);">Sharpe</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.04);border-radius:6px;padding:6px;text-align:center;">
+                  <div style="font-size:11px;font-weight:700;color:#fc8181;">-14%</div>
+                  <div style="font-size:9px;color:var(--text-muted);">Max DD</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.04);border-radius:6px;padding:6px;text-align:center;">
+                  <div style="font-size:11px;font-weight:700;">63%</div>
+                  <div style="font-size:9px;color:var(--text-muted);">Win Rate</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;align-items:center;justify-content:space-between;">
+                <div style="display:flex;gap:4px;">
+                  <span style="font-size:10px;background:rgba(72,187,120,0.1);color:#48bb78;border:1px solid rgba(72,187,120,0.2);padding:2px 7px;border-radius:100px;">● Live 847d</span>
+                  <span style="font-size:10px;background:rgba(245,183,49,0.1);color:var(--gold);border:1px solid rgba(245,183,49,0.2);padding:2px 7px;border-radius:100px;">IP Protected</span>
+                </div>
+                <button style="font-size:11px;font-weight:700;background:#48bb78;color:#040d0a;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;" data-en="Subscribe" data-zh="订阅">Subscribe</button>
+              </div>
+            </div>
+
+            <!-- strategy card 2 -->
+            <div style="background:var(--navy-700);border:1px solid var(--border-dim);border-radius:10px;padding:14px 16px;">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                <div>
+                  <div style="font-size:13px;font-weight:700;">US Momentum Pro</div>
+                  <div style="font-size:10px;color:var(--text-muted);">NASDAQ · Daily · US Stocks</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:13px;font-weight:800;color:var(--gold);">$79<span style="font-size:10px;font-weight:500;color:var(--text-muted);">/mo</span></div>
+                  <div style="font-size:10px;color:#48bb78;">184 subscribers</div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;">
+                <div style="background:rgba(255,255,255,0.04);border-radius:6px;padding:6px;text-align:center;">
+                  <div style="font-size:11px;font-weight:700;color:#48bb78;">+142%</div>
+                  <div style="font-size:9px;color:var(--text-muted);">1Y Return</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.04);border-radius:6px;padding:6px;text-align:center;">
+                  <div style="font-size:11px;font-weight:700;">1.87</div>
+                  <div style="font-size:9px;color:var(--text-muted);">Sharpe</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.04);border-radius:6px;padding:6px;text-align:center;">
+                  <div style="font-size:11px;font-weight:700;color:#fc8181;">-11%</div>
+                  <div style="font-size:9px;color:var(--text-muted);">Max DD</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.04);border-radius:6px;padding:6px;text-align:center;">
+                  <div style="font-size:11px;font-weight:700;">58%</div>
+                  <div style="font-size:9px;color:var(--text-muted);">Win Rate</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;align-items:center;justify-content:space-between;">
+                <div style="display:flex;gap:4px;">
+                  <span style="font-size:10px;background:rgba(72,187,120,0.1);color:#48bb78;border:1px solid rgba(72,187,120,0.2);padding:2px 7px;border-radius:100px;">● Live 412d</span>
+                  <span style="font-size:10px;background:rgba(245,183,49,0.1);color:var(--gold);border:1px solid rgba(245,183,49,0.2);padding:2px 7px;border-radius:100px;">IP Protected</span>
+                </div>
+                <button style="font-size:11px;font-weight:700;background:var(--navy-600);color:var(--text-primary);border:1px solid var(--border-dim);border-radius:6px;padding:5px 12px;cursor:pointer;" data-en="Subscribe" data-zh="订阅">Subscribe</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- creator vs subscriber split stats -->
+    <div style="margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+      <div style="background:var(--navy-700);border:1px solid var(--border-dim);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:28px;font-weight:800;color:var(--gold);">70%</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" data-en="Revenue share to strategy creator" data-zh="策略创作者收益分成">Revenue share to strategy creator</div>
+      </div>
+      <div style="background:var(--navy-700);border:1px solid var(--border-dim);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:28px;font-weight:800;color:#48bb78;">Live</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" data-en="Verified track record required to publish" data-zh="发布需经过实盘验证的绩效记录">Verified track record required to publish</div>
+      </div>
+      <div style="background:var(--navy-700);border:1px solid var(--border-dim);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:28px;font-weight:800;color:var(--text-primary);">3</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" data-en="Subscription modes: copy / signal / alert" data-zh="3 种订阅模式：跟单 / 信号 / 告警">Subscription modes: copy / signal / alert</div>
+      </div>
+      <div style="background:var(--navy-700);border:1px solid var(--border-dim);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:28px;font-weight:800;color:#a78bfa;">IP</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" data-en="Source code always protected via .so SDK" data-zh="源码通过 .so SDK 始终受保护">Source code always protected via .so SDK</div>
       </div>
     </div>
   </div>
