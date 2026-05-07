@@ -3,9 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BitValue — Quantitative Trading Infrastructure</title>
+  <title>BitValue — Quantitative Trading Platform | Backtest, Execute & Monetize Your Strategies</title>
+  <meta name="description" content="BitValue is a professional quantitative trading platform for self-taught traders. Backtest strategies with 10+ years of data, automate live execution on OKX, Binance, IBKR & more, and monetize your edge on the BitValue Signal marketplace." />
+  <meta name="keywords" content="quantitative trading, backtesting platform, algo trading, strategy backtesting, copy trading, signal marketplace, OKX trading bot, IBKR automated trading, crypto quant, quant finance" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://bitvalue.io/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bitvalue.io/" />
+  <meta property="og:title" content="BitValue — Quant Trading Platform | Backtest, Execute & Monetize" />
+  <meta property="og:description" content="Research, backtest with 10+ years of data, automate live execution across 8 exchanges, and sell your strategies on the BitValue Signal marketplace." />
+  <meta property="og:image" content="https://bitvalue.io/logo.png" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="zh_CN" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="BitValue — Quant Trading Platform" />
+  <meta name="twitter:description" content="Research, backtest, execute, and monetize your quant strategies — all in one platform." />
+  <meta name="twitter:image" content="https://bitvalue.io/logo.png" />
+
   <link rel="icon" type="image/png" href="logo.png" />
   <link rel="apple-touch-icon" href="logo.png" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "BitValue",
+    "url": "https://bitvalue.io",
+    "logo": "https://bitvalue.io/logo.png",
+    "description": "Professional quantitative trading platform for self-taught traders. Backtest, automate, and monetize your strategies.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": [
+      { "@type": "Offer", "name": "Starter", "price": "0", "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "Pro", "price": "79", "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "Elite", "price": "199", "priceCurrency": "USD" }
+    ],
+    "publisher": {
+      "@type": "Organization",
+      "name": "BitValue",
+      "url": "https://bitvalue.io",
+      "logo": "https://bitvalue.io/logo.png",
+      "contactPoint": { "@type": "ContactPoint", "email": "contact@bitvalue.io" }
+    }
+  }
+  </script>
   <style>
     :root {
       --gold: #F5B731;
@@ -785,6 +831,9 @@
       .price-grid { max-width: 100%; }
       .price-card { padding: 28px 20px; }
 
+      /* Journey grid */
+      .journey-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+
       /* Backtest packs */
       .pack-grid { grid-template-columns: 1fr !important; }
 
@@ -839,12 +888,12 @@
 </nav>
 
 <!-- ═══════════════════ HERO ═══════════════════ -->
-<section class="hero" id="home">
+<section class="hero" id="home" aria-label="Hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-content">
-    <div class="hero-badge" data-en="Institutional-Grade Quant Infrastructure" data-zh="机构级量化基础设施">
-      Institutional-Grade Quant Infrastructure
+    <div class="hero-badge" data-en="The Self-Taught Trader's Path to Monetization" data-zh="野生交易员的成长与变现之路">
+      The Self-Taught Trader's Path to Monetization
     </div>
     <h1>
       <span data-en="Research. Backtest." data-zh="研究。回测。">Research. Backtest.</span><br>
@@ -909,7 +958,7 @@
           <div style="display:flex;align-items:center;gap:8px;background:var(--navy-700);border:1px solid var(--border-dim);border-radius:10px;padding:8px 16px;">
             <div style="width:8px;height:8px;border-radius:50%;background:#48bb78;flex-shrink:0;"></div>
             <span style="font-size:13px;font-weight:700;color:var(--text-primary);" data-en="Longbridge" data-zh="长桥">Longbridge</span>
-            <span style="font-size:10px;color:var(--text-muted);" data-en="长桥证券" data-zh="长桥证券">长桥证券</span>
+            <span style="font-size:10px;color:var(--text-muted);" data-en="Longbridge Securities" data-zh="长桥证券">长桥证券</span>
           </div>
           <div style="display:flex;align-items:center;gap:8px;background:var(--navy-700);border:1px solid var(--border-dim);border-radius:10px;padding:8px 16px;">
             <div style="width:8px;height:8px;border-radius:50%;background:#48bb78;flex-shrink:0;"></div>
@@ -1057,7 +1106,7 @@
 </section>
 
 <!-- ═══════════════════ PRODUCTS ═══════════════════ -->
-<section class="products" id="products">
+<section class="products" id="products" aria-label="Products">
   <div class="section-inner">
     <div class="section-label" data-en="Our Products" data-zh="我们的产品">Our Products</div>
     <div class="section-title" data-en="Three Platforms. One Ecosystem." data-zh="三个平台，一个生态。">Three Platforms. One Ecosystem.</div>
@@ -1151,6 +1200,88 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ TRADER JOURNEY ═══════════════════ -->
+<section id="journey" style="background:var(--navy);padding:96px 24px;" aria-label="Trader Growth Journey">
+  <div class="section-inner">
+    <div class="section-label" data-en="The Path" data-zh="成长之路">The Path</div>
+    <h2 class="section-title" data-en="Wild Trader. Systematic Edge. Real Income." data-zh="野生交易员的成长变现道路。">Wild Trader. Systematic Edge. Real Income.</h2>
+    <p class="section-desc" data-en="You don't need a finance degree or a trading desk. BitValue is built for self-taught traders who want to turn their market intuition into a systematic, verifiable, and monetizable edge." data-zh="不需要金融学位，不需要机构背景。BitValue 为野生交易员而生——帮你把对市场的直觉，变成可验证、可执行、可变现的系统化优势。">
+      You don't need a finance degree or a trading desk. BitValue is built for self-taught traders who want to turn their market intuition into a systematic, verifiable, and monetizable edge.
+    </p>
+
+    <div style="margin-top:64px;position:relative;">
+      <!-- connector line -->
+      <div style="position:absolute;top:36px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent,rgba(245,183,49,0.3),var(--gold),rgba(245,183,49,0.3),transparent);z-index:0;"></div>
+
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;z-index:1;" class="journey-grid">
+
+        <!-- Stage 1 -->
+        <div style="text-align:center;padding:0 12px;">
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--navy-800);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:24px;position:relative;">
+            💡
+            <div style="position:absolute;top:-8px;right:-8px;background:var(--navy-600);border:1px solid var(--border);border-radius:100px;font-size:10px;font-weight:800;color:var(--text-muted);padding:2px 7px;">01</div>
+          </div>
+          <div style="font-size:14px;font-weight:800;color:var(--text-primary);margin-bottom:8px;" data-en="The Idea" data-zh="有了想法">The Idea</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6;" data-en="You see a pattern. A setup that keeps working. But you can't prove it — yet." data-zh="你发现了规律。一种反复奏效的形态。但你还无法证明它。">You see a pattern. A setup that keeps working. But you can't prove it — yet.</div>
+        </div>
+
+        <!-- Stage 2 -->
+        <div style="text-align:center;padding:0 12px;">
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--navy-800);border:2px solid rgba(99,179,237,0.5);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:24px;position:relative;box-shadow:0 0 20px rgba(99,179,237,0.15);">
+            🔬
+            <div style="position:absolute;top:-8px;right:-8px;background:rgba(99,179,237,0.15);border:1px solid rgba(99,179,237,0.3);border-radius:100px;font-size:10px;font-weight:800;color:#63b3ed;padding:2px 7px;">02</div>
+          </div>
+          <div style="font-size:14px;font-weight:800;color:var(--text-primary);margin-bottom:8px;" data-en="Research &amp; Backtest" data-zh="研发与回测">Research &amp; Backtest</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6;" data-en="Validate with 10+ years of data. Run parameter grids. See the real numbers." data-zh="用 10 年以上数据验证。跑参数网格。看到真实的数字。">Validate with 10+ years of data. Run parameter grids. See the real numbers.</div>
+          <div style="margin-top:10px;display:inline-block;font-size:10px;font-weight:700;color:#63b3ed;background:rgba(99,179,237,0.1);border:1px solid rgba(99,179,237,0.2);border-radius:100px;padding:3px 10px;">BitValue Research</div>
+        </div>
+
+        <!-- Stage 3 -->
+        <div style="text-align:center;padding:0 12px;">
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--navy-800);border:2px solid rgba(245,183,49,0.6);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:24px;position:relative;box-shadow:0 0 24px rgba(245,183,49,0.2);">
+            ⚡
+            <div style="position:absolute;top:-8px;right:-8px;background:rgba(245,183,49,0.15);border:1px solid rgba(245,183,49,0.3);border-radius:100px;font-size:10px;font-weight:800;color:var(--gold);padding:2px 7px;">03</div>
+          </div>
+          <div style="font-size:14px;font-weight:800;color:var(--gold);margin-bottom:8px;" data-en="Go Live" data-zh="实盘执行">Go Live</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6;" data-en="Connect your exchange. Let the system trade your strategy 24/7 with full risk control." data-zh="连接交易所。让系统全天候执行你的策略，完整风控保驾护航。">Connect your exchange. Let the system trade your strategy 24/7 with full risk control.</div>
+          <div style="margin-top:10px;display:inline-block;font-size:10px;font-weight:700;color:var(--gold);background:rgba(245,183,49,0.1);border:1px solid rgba(245,183,49,0.2);border-radius:100px;padding:3px 10px;">BitValue Trader</div>
+        </div>
+
+        <!-- Stage 4 -->
+        <div style="text-align:center;padding:0 12px;">
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--navy-800);border:2px solid rgba(167,139,250,0.5);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:24px;position:relative;box-shadow:0 0 20px rgba(167,139,250,0.15);">
+            🤖
+            <div style="position:absolute;top:-8px;right:-8px;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:100px;font-size:10px;font-weight:800;color:#a78bfa;padding:2px 7px;">04</div>
+          </div>
+          <div style="font-size:14px;font-weight:800;color:var(--text-primary);margin-bottom:8px;" data-en="Optimize with AI" data-zh="AI 持续优化">Optimize with AI</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6;" data-en="AI diagnoses drawdowns, suggests improvements, and helps you iterate faster." data-zh="AI 诊断回撤，提出改进建议，帮你更快迭代。">AI diagnoses drawdowns, suggests improvements, and helps you iterate faster.</div>
+          <div style="margin-top:10px;display:inline-block;font-size:10px;font-weight:700;color:#a78bfa;background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2);border-radius:100px;padding:3px 10px;">AI Research</div>
+        </div>
+
+        <!-- Stage 5 -->
+        <div style="text-align:center;padding:0 12px;">
+          <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,rgba(72,187,120,0.2),rgba(72,187,120,0.05));border:2px solid rgba(72,187,120,0.6);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:24px;position:relative;box-shadow:0 0 28px rgba(72,187,120,0.2);">
+            💰
+            <div style="position:absolute;top:-8px;right:-8px;background:rgba(72,187,120,0.15);border:1px solid rgba(72,187,120,0.3);border-radius:100px;font-size:10px;font-weight:800;color:#48bb78;padding:2px 7px;">05</div>
+          </div>
+          <div style="font-size:14px;font-weight:800;color:#48bb78;margin-bottom:8px;" data-en="Monetize Your Edge" data-zh="变现你的优势">Monetize Your Edge</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6;" data-en="Publish to BitValue Signal. Earn 70% revenue share. Your source code stays private." data-zh="发布到 BitValue Signal。获得 70% 收益分成。源码始终保密。">Publish to BitValue Signal. Earn 70% revenue share. Your source code stays private.</div>
+          <div style="margin-top:10px;display:inline-block;font-size:10px;font-weight:700;color:#48bb78;background:rgba(72,187,120,0.1);border:1px solid rgba(72,187,120,0.2);border-radius:100px;padding:3px 10px;">BitValue Signal</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bottom quote -->
+    <div style="margin-top:64px;text-align:center;padding:32px;background:rgba(245,183,49,0.04);border:1px solid rgba(245,183,49,0.12);border-radius:16px;">
+      <div style="font-size:clamp(16px,2.5vw,22px);font-weight:700;color:var(--text-primary);line-height:1.5;margin-bottom:12px;" data-en="Your edge is real. Now make it systematic, automated, and profitable." data-zh="你的优势是真实的。现在让它变得系统化、自动化、可变现。">
+        Your edge is real. Now make it systematic, automated, and profitable.
+      </div>
+      <a href="#pricing" class="btn-primary" data-en="Start Your Journey" data-zh="开始你的成长之路">Start Your Journey</a>
     </div>
   </div>
 </section>
@@ -1927,7 +2058,7 @@
 </section>
 
 <!-- ═══════════════════ PRICING ═══════════════════ -->
-<section class="pricing" id="pricing">
+<section class="pricing" id="pricing" aria-label="Pricing">
   <div class="section-inner">
     <div class="section-label" data-en="Pricing" data-zh="定价">Pricing</div>
     <div class="section-title" data-en="Simple, Transparent Pricing" data-zh="简单透明的定价">Simple, Transparent Pricing</div>
@@ -2128,8 +2259,8 @@
           <img src="logo.png" alt="BitValue" style="width:28px;height:28px;border-radius:7px;" />
           <span class="nav-logo-text" style="font-size:16px">Bit<span>Value</span></span>
         </a>
-        <p data-en="Quantitative trading infrastructure for the next generation of systematic traders. Research, backtest, and execute — all in one platform." data-zh="为下一代系统化交易者打造的量化交易基础设施。研究、回测、执行，一个平台搞定。">
-          Quantitative trading infrastructure for the next generation of systematic traders. Research, backtest, and execute — all in one platform.
+        <p data-en="Quantitative trading infrastructure for self-taught traders. Research, backtest, execute live, and monetize your strategies — all in one platform." data-zh="为野生交易员打造的量化交易基础设施。研究、回测、实盘执行，并在市场上变现你的策略——一个平台全搞定。">
+          Quantitative trading infrastructure for self-taught traders. Research, backtest, execute live, and monetize your strategies — all in one platform.
         </p>
       </div>
       <div class="footer-col">
@@ -2183,7 +2314,14 @@
 
     document.querySelectorAll('[data-en]').forEach(el => {
       const text = el.getAttribute(`data-${lang}`);
-      if (text) el.textContent = text;
+      if (text) {
+        // Use innerHTML to preserve <strong>, <br>, <em> etc. inside translated strings
+        if (/<[a-z]/.test(text)) {
+          el.innerHTML = text;
+        } else {
+          el.textContent = text;
+        }
+      }
     });
 
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
