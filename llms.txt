@@ -1,0 +1,38 @@
+# BitValue
+
+> Quantitative trading platform for self-taught traders. Research, backtest, execute, and monetize your strategies.
+
+## Products
+
+- **BitValue Research**: Professional quantitative research and backtesting platform. Supports 10+ years of historical data, parameter grid optimization with heatmap visualization, AI-assisted strategy development, and algorithm IP protection via .so SDK.
+- **BitValue Trader**: Automated multi-market trading execution system. Connects to 8 major exchanges and brokers (OKX, Binance, Gate.io, IBKR, Schwab, Longbridge, Tiger Brokers, Futu). Handles orders, positions, TP/SL, risk control, and reconciliation 24/7.
+- **BitValue Signal**: Strategy marketplace and copy-trading platform. Strategy creators publish with IP protection (source code never exposed), earn 70% revenue share. Subscribers can copy-trade, receive signals, or get alerts.
+
+## Key Features
+
+- 10+ years of multi-exchange OHLCV data (500,000+ bars on 15-minute timeframe)
+- Parameter grid optimization with heatmap visualization
+- AI quant research partner: strategy generation, backtest diagnosis, factor suggestions
+- Algorithm IP protection: compile strategy to .so binary locally, upload binary only
+- 8 connected exchanges: OKX, Binance, Gate.io (crypto); IBKR, Schwab (US stocks); Longbridge Securities, Tiger Brokers, Futu/moomoo (HK stocks)
+- Signal-driven, backtest-consistent live execution
+- Full risk control: reduce-only, position reconciliation, audit log, circuit breakers
+
+## Pricing
+
+- **Starter**: Free — 1 exchange account, 50 backtest credits/month
+- **Pro**: $79/month — 3 exchange accounts, 500 backtest credits/month, .so SDK (paid features), AI research assistant
+- **Elite**: $199/month — unlimited strategies, 2,000 backtest credits/month, priority execution, marketplace publishing
+
+## Target Audience
+
+Self-taught (retail) quantitative traders who want to:
+1. Validate trading ideas with serious historical backtesting
+2. Automate live execution across crypto and stock markets
+3. Protect their algorithmic IP
+4. Monetize proven strategies through the Signal marketplace
+
+## Contact
+
+- Website: https://bitvalue.io
+- Email: contact@bitvalue.io

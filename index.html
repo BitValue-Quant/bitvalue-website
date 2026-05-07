@@ -2307,16 +2307,31 @@
   // ── Language Toggle ────────────────────────────────
   let currentLang = 'en';
 
+  // On load: snapshot original innerHTML for elements whose EN content has HTML tags
+  // (e.g. <strong>10+ years</strong> of data ...) so we can restore it when switching back to EN
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-en]').forEach(el => {
+      const html = el.innerHTML;
+      if (/<[a-zA-Z]/.test(html)) {
+        el.setAttribute('data-en-raw', html);
+      }
+    });
+  });
+
   function setLang(lang) {
     currentLang = lang;
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
     document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
 
     document.querySelectorAll('[data-en]').forEach(el => {
+      if (lang === 'en') {
+        // Restore original HTML snapshot if it exists, otherwise use data-en text
+        const raw = el.getAttribute('data-en-raw');
+        if (raw) { el.innerHTML = raw; return; }
+      }
       const text = el.getAttribute(`data-${lang}`);
       if (text) {
-        // Use innerHTML to preserve <strong>, <br>, <em> etc. inside translated strings
-        if (/<[a-z]/.test(text)) {
+        if (/<[a-zA-Z]/.test(text)) {
           el.innerHTML = text;
         } else {
           el.textContent = text;
