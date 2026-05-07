@@ -302,12 +302,15 @@
     .product-card-body { padding: 28px 32px 32px; }
 
     .feature-list {
-      list-style: none; display: flex; flex-direction: column; gap: 12px;
+      list-style: none; display: flex; flex-direction: column; gap: 14px;
     }
     .feature-list li {
       display: flex; align-items: flex-start; gap: 10px;
       font-size: 14px; color: var(--text-secondary);
     }
+    .feature-list li > div { display: flex; flex-direction: column; gap: 2px; }
+    .feature-list li strong { color: var(--text-primary); font-size: 13px; }
+    .feature-list li span { color: var(--text-muted); font-size: 12px; line-height: 1.5; }
     .feature-list li::before {
       content: '';
       flex-shrink: 0;
@@ -928,12 +931,12 @@
         </div>
         <div class="product-card-body">
           <ul class="feature-list">
-            <li><strong data-en="PineScript v5 Import" data-zh="PineScript v5 导入">PineScript v5 Import</strong>&nbsp;<span data-en="— directly paste strategy code, auto-parse parameters" data-zh="— 直接粘贴策略代码，自动解析参数">— directly paste strategy code, auto-parse parameters</span></li>
-            <li><strong data-en="10+ Years Kline Data" data-zh="10+ 年K线数据">10+ Years Kline Data</strong>&nbsp;<span data-en="— multi-exchange, multi-timeframe OHLCV support" data-zh="— 多交易所、多时间周期 OHLCV 支持">— multi-exchange, multi-timeframe OHLCV support</span></li>
-            <li><strong data-en="Backtesting Engine" data-zh="回测引擎">Backtesting Engine</strong>&nbsp;<span data-en="— Sharpe, max drawdown, win rate, P&L curve" data-zh="— 夏普比率、最大回撤、胜率、盈亏曲线">— Sharpe, max drawdown, win rate, P&L curve</span></li>
-            <li><strong data-en="Parameter Grid Optimization" data-zh="参数网格优化">Parameter Grid Optimization</strong>&nbsp;<span data-en="— heatmap visualization, best-param recommendation" data-zh="— 热力图可视化，最优参数推荐">— heatmap visualization, best-param recommendation</span></li>
-            <li><strong data-en="Buy/Sell Signal Chart" data-zh="买卖信号图表">Buy/Sell Signal Chart</strong>&nbsp;<span data-en="— interactive K-line with trade annotations" data-zh="— 带交易标注的交互式K线图">— interactive K-line with trade annotations</span></li>
-            <li><strong data-en="Multi-market Support" data-zh="多市场支持">Multi-market Support</strong>&nbsp;<span data-en="— Crypto, NASDAQ, NYSE, HKEX" data-zh="— 加密货币、纳斯达克、纽交所、港交所">— Crypto, NASDAQ, NYSE, HKEX</span></li>
+            <li><div><strong data-en="PineScript v5 Import" data-zh="PineScript v5 导入">PineScript v5 Import</strong><span data-en="directly paste strategy code, auto-parse parameters" data-zh="直接粘贴策略代码，自动解析参数">directly paste strategy code, auto-parse parameters</span></div></li>
+            <li><div><strong data-en="10+ Years Kline Data" data-zh="10+ 年K线数据">10+ Years Kline Data</strong><span data-en="multi-exchange, multi-timeframe OHLCV support" data-zh="多交易所、多时间周期 OHLCV 支持">multi-exchange, multi-timeframe OHLCV support</span></div></li>
+            <li><div><strong data-en="Backtesting Engine" data-zh="回测引擎">Backtesting Engine</strong><span data-en="Sharpe, max drawdown, win rate, P&L curve" data-zh="夏普比率、最大回撤、胜率、盈亏曲线">Sharpe, max drawdown, win rate, P&L curve</span></div></li>
+            <li><div><strong data-en="Parameter Grid Optimization" data-zh="参数网格优化">Parameter Grid Optimization</strong><span data-en="heatmap visualization, best-param recommendation" data-zh="热力图可视化，最优参数推荐">heatmap visualization, best-param recommendation</span></div></li>
+            <li><div><strong data-en="Buy/Sell Signal Chart" data-zh="买卖信号图表">Buy/Sell Signal Chart</strong><span data-en="interactive K-line with trade annotations" data-zh="带交易标注的交互式K线图">interactive K-line with trade annotations</span></div></li>
+            <li><div><strong data-en="Multi-market Support" data-zh="多市场支持">Multi-market Support</strong><span data-en="Crypto, NASDAQ, NYSE, HKEX" data-zh="加密货币、纳斯达克、纽交所、港交所">Crypto, NASDAQ, NYSE, HKEX</span></div></li>
           </ul>
         </div>
       </div>
@@ -956,12 +959,12 @@
         </div>
         <div class="product-card-body">
           <ul class="feature-list">
-            <li><strong data-en="Multi-Market Execution" data-zh="多市场执行">Multi-Market Execution</strong>&nbsp;<span data-en="— OKX (crypto), IBKR (US/HK stocks)" data-zh="— OKX（数字货币）、IBKR（美股/港股）">— OKX (crypto), IBKR (US/HK stocks)</span></li>
-            <li><strong data-en="Signal-Driven Automation" data-zh="信号驱动自动化">Signal-Driven Automation</strong>&nbsp;<span data-en="— connect any signal source via webhook or SDK" data-zh="— 通过 Webhook 或 SDK 接入任意信号源">— connect any signal source via webhook or SDK</span></li>
-            <li><strong data-en="Position Management" data-zh="仓位管理">Position Management</strong>&nbsp;<span data-en="— real-time sync, reconciliation, PnL tracking" data-zh="— 实时同步、对账、盈亏跟踪">— real-time sync, reconciliation, PnL tracking</span></li>
-            <li><strong data-en="Exchange-Native TP/SL" data-zh="交易所原生止盈止损">Exchange-Native TP/SL</strong>&nbsp;<span data-en="— reduce-only orders, spike protection" data-zh="— 减仓单、插针保护">— reduce-only orders, spike protection</span></li>
-            <li><strong data-en="Risk Control Engine" data-zh="风控引擎">Risk Control Engine</strong>&nbsp;<span data-en="— circuit breaker, alerts, audit log" data-zh="— 熔断机制、告警、审计日志">— circuit breaker, alerts, audit log</span></li>
-            <li><strong data-en="Paper → Live Trading" data-zh="模拟 → 实盘">Paper → Live Trading</strong>&nbsp;<span data-en="— validate signals safely before going live" data-zh="— 上线前安全验证信号">— validate signals safely before going live</span></li>
+            <li><div><strong data-en="Multi-Market Execution" data-zh="多市场执行">Multi-Market Execution</strong><span data-en="OKX (crypto), IBKR (US/HK stocks)" data-zh="OKX（数字货币）、IBKR（美股/港股）">OKX (crypto), IBKR (US/HK stocks)</span></div></li>
+            <li><div><strong data-en="Signal-Driven Automation" data-zh="信号驱动自动化">Signal-Driven Automation</strong><span data-en="connect any signal source via webhook or SDK" data-zh="通过 Webhook 或 SDK 接入任意信号源">connect any signal source via webhook or SDK</span></div></li>
+            <li><div><strong data-en="Position Management" data-zh="仓位管理">Position Management</strong><span data-en="real-time sync, reconciliation, PnL tracking" data-zh="实时同步、对账、盈亏跟踪">real-time sync, reconciliation, PnL tracking</span></div></li>
+            <li><div><strong data-en="Exchange-Native TP/SL" data-zh="交易所原生止盈止损">Exchange-Native TP/SL</strong><span data-en="reduce-only orders, spike protection" data-zh="减仓单、插针保护">reduce-only orders, spike protection</span></div></li>
+            <li><div><strong data-en="Risk Control Engine" data-zh="风控引擎">Risk Control Engine</strong><span data-en="circuit breaker, alerts, audit log" data-zh="熔断机制、告警、审计日志">circuit breaker, alerts, audit log</span></div></li>
+            <li><div><strong data-en="Paper → Live Trading" data-zh="模拟 → 实盘">Paper → Live Trading</strong><span data-en="validate signals safely before going live" data-zh="上线前安全验证信号">validate signals safely before going live</span></div></li>
           </ul>
         </div>
       </div>
