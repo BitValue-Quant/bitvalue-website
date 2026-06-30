@@ -224,9 +224,10 @@
     "args": [
       { "name": "name", "type": "string", "note": "named series; align with TradingView golden column names for indicator-level golden compare (e.g. \"Custom PSAR\", \"Long SL\", \"Efficiency ratio\", \"ATR Rank\", \"Vol Ratio\")" },
       { "name": "value", "type": "number|null", "note": "null = sparse/skipped for this bar (e.g. only plot Long SL while long)" },
-      { "name": "opts", "type": "object", "note": "optional chart-spec hints consumed by the frontend renderer: style = line|cross|circles|histogram, pane = main|sub, color. Does not affect signals." }
+      { "name": "opts", "type": "object", "status": "reserved", "note": "FORWARD-LOOKING / not yet parsed by the v1 runtime. Planned chart-spec hints for the frontend renderer: style = line|cross|circles|histogram, pane = main|sub, color. The v1 runtime currently records only (name, value); this argument is accepted but ignored. Never affects signals." }
     ],
-    "output": "one column in indicators.parquet per name; not a position action"
+    "output": "one column in indicators.parquet per (name, value); not a position action",
+    "runtimeStatus": "v1 runtime parses (name, value) only; the opts chart-spec argument is defined ahead of implementation."
   },
   "determinism": {
     "note": "Backtests must be reproducible: same .js + same bars + same params => same result.",

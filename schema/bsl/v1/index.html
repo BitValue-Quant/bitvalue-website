@@ -148,9 +148,11 @@
     <h2>6 · Plot</h2>
     <p><code>plot(name, value, { style, pane, color })</code> emits one named per-bar series → a column in
     <code>indicators.parquet</code>. <code>value = null</code> means sparse/skipped for that bar (e.g. only plot a
-    Long SL while long). Align <code>name</code> with TradingView golden column names for indicator-level golden compare.
-    <code>style</code> (line|cross|circles|histogram), <code>pane</code> (main|sub) and <code>color</code> are chart-spec
-    hints for the frontend renderer and do not affect signals.</p>
+    Long SL while long). Align <code>name</code> with TradingView golden column names for indicator-level golden compare.</p>
+    <div class="note"><strong>Reserved / forward-looking:</strong> the third argument
+    <code>{ style, pane, color }</code> (style = line|cross|circles|histogram, pane = main|sub, color) is a planned
+    chart-spec hint for the frontend renderer. The <strong>v1 runtime currently records only
+    <code>(name, value)</code></strong> and accepts but does not yet parse this argument. It never affects signals.</div>
 
     <h2>7 · Determinism &amp; sandbox</h2>
     <p>Backtests must be reproducible: same <code>.js</code> + same bars + same params ⇒ same result.</p>
@@ -172,7 +174,7 @@
     <footer>
       Canonical source of truth: <span class="mono">github.com/BitValue-Quant/athena</span> →
       <span class="mono">internal/bsl/{hostapi.go, bsl.go, sandbox.go}</span> and
-      <span class="mono">bsl.SupportedSchemas</span>. This page is synced from that source; on any conflict, the source wins.
+      <span class="mono">bsl.SupportedSchemas</span>. Synced at athena <span class="mono">aa65d05</span>; this page is a projection of that source — on any conflict, the source wins.
       · Related: <a href="/schema/strategy-manifest/v1/">strategy-manifest/v1</a> · <a href="/bsl/">What is BSL?</a>
     </footer>
   </div>
