@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Strategy Manifest v1 — bitvalue.io/schema/strategy-manifest/v1</title>
+  <meta name="description" content="Definition of the BitValue Strategy Manifest schema v1.0 — the single source of truth for a strategy asset's manifest.yaml: identity, market, engine/ABI, parameters, data requirements, signal contract, risk and admission state." />
+  <meta name="robots" content="index, follow" />
+  <link rel="alternate" type="application/schema+json" href="/schema/strategy-manifest/v1/manifest.schema.json" />
+  <style>
+    :root{
+      --gold:#F5B731; --gold-dim:#c9912a; --navy:#0A1628; --bg:#060e1a;
+      --panel:#0d1b30; --text-primary:#f0f4ff; --text-secondary:#8fa4c8;
+      --text-muted:#4e6a90; --border:rgba(245,183,49,0.16); --border-dim:rgba(255,255,255,0.06);
+      --green:#48bb78; --purple:#a78bfa;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--navy);color:var(--text-primary);
+      font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.7;font-size:15px}
+    a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+    code,.mono{font-family:'Courier New',monospace}
+    .wrap{max-width:920px;margin:0 auto;padding:32px 20px 80px}
+    header.top{display:flex;align-items:center;justify-content:space-between;
+      border-bottom:1px solid var(--border-dim);padding-bottom:16px;margin-bottom:28px}
+    header.top .brand{font-weight:700;color:var(--gold);letter-spacing:.5px}
+    .pill{display:inline-block;font-size:11px;border:1px solid var(--border);border-radius:999px;
+      padding:2px 10px;color:var(--gold);background:rgba(245,183,49,0.06);margin-left:8px}
+    h1{font-size:30px;margin:.2em 0 .1em}
+    h2{font-size:21px;margin:2em 0 .6em;border-bottom:1px solid var(--border-dim);padding-bottom:6px}
+    h3{font-size:16px;margin:1.4em 0 .4em;color:var(--gold)}
+    .uri{font-size:13px;color:var(--text-secondary);margin-bottom:6px}
+    .lede{color:var(--text-secondary);font-size:16px}
+    .note{background:var(--panel);border:1px solid var(--border-dim);border-left:3px solid var(--gold);
+      border-radius:8px;padding:12px 16px;margin:18px 0;color:var(--text-secondary);font-size:14px}
+    pre{background:var(--bg);border:1px solid var(--border-dim);border-radius:10px;padding:16px;
+      overflow:auto;font-size:13px;line-height:1.8;color:#cfe0ff}
+    pre .c{color:var(--text-muted)} pre .k{color:var(--gold)} pre .s{color:var(--green)} pre .p{color:var(--purple)}
+    table{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:13.5px}
+    th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border-dim);vertical-align:top}
+    th{color:var(--text-secondary);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+    td code{color:var(--gold)}
+    .req{color:var(--green);font-size:12px;font-weight:600}
+    .muted{color:var(--text-muted)}
+    footer{margin-top:48px;border-top:1px solid var(--border-dim);padding-top:18px;color:var(--text-muted);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">BitValue<span class="muted" style="font-weight:400"> / schema</span></div>
+      <nav><a href="/">bitvalue.io</a> · <a href="/schema/bsl/v1/">BSL v1</a> · <a href="/schema/strategy-manifest/v1/manifest.schema.json">manifest.schema.json</a></nav>
+    </header>
+
+    <div class="uri mono">bitvalue.io/schema/strategy-manifest/v1 <span class="pill">v1.0 · stable</span></div>
+    <h1>Strategy Manifest — v1</h1>
+    <p class="lede">A <code>manifest.yaml</code> is the single source of truth for a strategy asset: identity
+    (<code>family@version</code>), market/symbol/timeframe, engine/ABI, parameter schema, data requirements,
+    signal contract, risk constraints and admission state. The same manifest drives Athena backtests <em>and</em>
+    hermes/signal live signal generation, so backtest and live never drift.</p>
+
+    <div class="note">
+      <strong>Machine-readable:</strong> <a href="/schema/strategy-manifest/v1/manifest.schema.json">manifest.schema.json</a>
+      (JSON Schema 2020-12, <code>$id: https://bitvalue.io/schema/strategy-manifest/v1</code>). Validate a manifest with any
+      JSON-Schema validator after parsing the YAML to JSON.
+    </div>
+
+    <h2>1 · Discovery</h2>
+    <p>Each strategy version is a directory; the manifest has a fixed name:</p>
+<pre>strategies/assets/<span class="k">&lt;family&gt;</span>/<span class="k">&lt;version&gt;</span>/manifest.yaml</pre>
+    <p><code>family</code> and <code>version</code> come from the manifest itself and must match the directory
+    (a validation check). The locator is <code>family@version</code> (e.g. <code>eth15m@2026q3</code>).</p>
+
+    <h2>2 · Example</h2>
+<pre><span class="k">schema_version</span>: <span class="s">"1.0"</span>
+
+<span class="c"># 1) identity</span>
+<span class="k">name</span>: eth-15m-psar
+<span class="k">family</span>: eth15m
+<span class="k">version</span>: <span class="s">"2026q3"</span>
+
+<span class="c"># 2) market</span>
+<span class="k">market</span>: crypto
+<span class="k">symbol</span>: ETH-USDT-SWAP
+<span class="k">timeframe</span>: 15m
+<span class="k">exchanges</span>: [OKX]
+
+<span class="c"># 3) engine</span>
+<span class="k">engine</span>:
+  <span class="k">kind</span>: bsl                  <span class="c"># go | bsl | so | python</span>
+  <span class="k">entrypoint</span>: strategy.js     <span class="c"># required when kind=bsl</span>
+  <span class="k">language</span>: js
+
+<span class="c"># 4) parameters</span>
+<span class="k">parameters</span>:
+  - { name: atr_length, type: int,   default: <span class="p">14</span>, min: <span class="p">1</span>, max: <span class="p">500</span>, tunable: true }
+  - { name: er_threshold, type: float, default: <span class="p">45.0</span>, min: <span class="p">0</span>, max: <span class="p">100</span>, step: <span class="p">0.1</span>, tunable: true }
+
+<span class="c"># 6) data requirements</span>
+<span class="k">data_requirements</span>:
+  <span class="k">input_types</span>: [OHLCV]
+  <span class="k">lookback_bars</span>: <span class="p">300</span>
+  <span class="k">warmup_minutes</span>: <span class="p">4500</span>      <span class="c"># = lookback_bars × timeframe</span>
+
+<span class="c"># 7) signal contract</span>
+<span class="k">signal_output</span>:
+  <span class="k">actions</span>: [ENTER_LONG, CLOSE_LONG, FLIP_TO_LONG]
+  <span class="k">emits_desired_orders</span>: true
+
+<span class="c"># 8) risk constraints (AGENTS §9 hard-checks)</span>
+<span class="k">risk</span>:
+  <span class="k">sl_protection_mode</span>: enforced   <span class="c"># enforced | strategy_managed</span>
+  <span class="k">has_protective_sl</span>: true
+  <span class="k">reduce_only_close</span>: true        <span class="c"># must be true</span>
+  <span class="k">flip_two_phase</span>: true           <span class="c"># required if strategy emits FLIP</span>
+
+<span class="c"># 9) admission (governance)</span>
+<span class="k">admission</span>:
+  <span class="k">state</span>: backtest_passed
+  <span class="k">paper_allowed</span>: true
+  <span class="k">live_allowed</span>: false</pre>
+
+    <h2>3 · Top-level blocks</h2>
+    <table>
+      <tr><th>Block</th><th>Required fields</th><th>Purpose</th></tr>
+      <tr><td>identity</td><td><span class="req">schema_version, name, family, version</span></td><td><code>family@version</code> locator</td></tr>
+      <tr><td>market</td><td><span class="req">market, symbol, timeframe</span></td><td>research/live target</td></tr>
+      <tr><td>engine</td><td><span class="req">engine.kind</span> (so|go|python|bsl)</td><td>engine + ABI; <code>entrypoint</code> required when kind=bsl</td></tr>
+      <tr><td>parameters</td><td>each: <span class="req">name, type, default</span></td><td>type ∈ int|float|bool|enum; enum needs <code>options[]</code></td></tr>
+      <tr><td>data_requirements</td><td><span class="req">input_types, lookback_bars</span></td><td>warmup; <code>warmup_minutes</code> should = lookback_bars × timeframe</td></tr>
+      <tr><td>signal_output</td><td>actions (advisory)</td><td>cross-checked against the execution layer</td></tr>
+      <tr><td>risk</td><td><span class="req">reduce_only_close, has_protective_sl</span></td><td>admission hard-checks (AGENTS §9)</td></tr>
+      <tr><td>admission</td><td><span class="req">state, paper_allowed, live_allowed</span></td><td>governance; default <code>live_allowed: false</code></td></tr>
+      <tr><td>provenance</td><td>—</td><td>lineage/audit (source commit, Pine source, reviews)</td></tr>
+    </table>
+
+    <h2>4 · Cross-field rules (validator)</h2>
+    <p>Beyond the structural schema, <code>athena strategy validate</code> enforces:</p>
+    <ul>
+      <li><code>family/version</code> must match the asset directory name.</li>
+      <li><code>engine.kind=bsl</code> ⇒ <code>engine.entrypoint</code> set and the file exists.</li>
+      <li><code>risk.reduce_only_close</code> must be <code>true</code>.</li>
+      <li><code>admission.live_allowed=true</code> ⇒ <code>risk.has_protective_sl=true</code> <em>or</em>
+      <code>risk.sl_protection_mode=strategy_managed</code>, and <code>admission.reviewer</code> set.</li>
+      <li>Strategy emits <code>FLIP</code> actions ⇒ <code>risk.flip_two_phase=true</code>.</li>
+      <li><code>warmup_minutes</code> should equal <code>lookback_bars × timeframe</code> (warn otherwise).</li>
+      <li>Manifests are parsed with unknown keys rejected, so a typo can't silently bypass a governance check.</li>
+    </ul>
+
+    <h2>5 · Admission states</h2>
+    <p class="mono" style="font-size:13px;color:var(--text-secondary)">draft → pine_mapped → engine_implemented → golden_aligned → backtest_passed → walkforward_passed → health_check_passed → paper_approved → live_small_cap_approved → live_scaled → deprecated</p>
+
+    <footer>
+      Canonical source of truth: <span class="mono">github.com/BitValue-Quant/athena</span> →
+      <span class="mono">internal/manifest/{manifest.go, validate.go}</span>; spec
+      <span class="mono">tech-design/athena/strategy-manifest-schema.md</span>. This page is synced from that source; on any conflict, the source wins.
+      · Related: <a href="/schema/bsl/v1/">BSL v1</a> · <a href="/bsl/">What is BSL?</a>
+    </footer>
+  </div>
+</body>
+</html>

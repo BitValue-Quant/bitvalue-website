@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSL — BitValue Strategy Language | Write quant strategies in JavaScript</title>
+  <meta name="description" content="BSL (BitValue Strategy Language) lets you write quant strategies in JavaScript. Athena runs them bar-by-bar over 10+ years of data — edit a .js file, re-run the backtest, no recompile. The same source can drive live execution." />
+  <meta name="keywords" content="BSL, BitValue Strategy Language, quant strategy DSL, JavaScript backtesting, goja, strategy scripting, algo trading language" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="BSL — BitValue Strategy Language" />
+  <meta property="og:description" content="Write quant strategies in JavaScript. Edit a .js, re-run the backtest, zero recompile — same source can drive live execution." />
+  <meta property="og:url" content="https://bitvalue.io/bsl/" />
+  <meta property="og:image" content="https://bitvalue.io/logo.png" />
+  <link rel="canonical" href="https://bitvalue.io/bsl/" />
+  <style>
+    :root{
+      --gold:#F5B731; --gold-dim:#c9912a; --gold-glow:rgba(245,183,49,0.18); --navy:#0A1628; --bg:#060e1a;
+      --panel:#0d1b30; --text-primary:#f0f4ff; --text-secondary:#8fa4c8;
+      --text-muted:#4e6a90; --border:rgba(245,183,49,0.16); --border-dim:rgba(255,255,255,0.06);
+      --green:#48bb78; --purple:#a78bfa;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--navy);color:var(--text-primary);
+      font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.7;font-size:15px}
+    a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+    code,.mono{font-family:'Courier New',monospace}
+    .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+    header.top{display:flex;align-items:center;justify-content:space-between;
+      border-bottom:1px solid var(--border-dim);padding-bottom:16px;margin-bottom:8px}
+    header.top .brand{font-weight:700;color:var(--gold);letter-spacing:.5px}
+    .hero{padding:40px 0 8px}
+    .kicker{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);font-weight:600}
+    h1{font-size:42px;line-height:1.15;margin:.18em 0 .25em;max-width:16ch}
+    .hero p{font-size:18px;color:var(--text-secondary);max-width:60ch}
+    h2{font-size:24px;margin:2.2em 0 .6em}
+    h3{font-size:16px;margin:1.2em 0 .3em;color:var(--gold)}
+    .lead{color:var(--text-secondary)}
+    pre{background:var(--bg);border:1px solid var(--border-dim);border-radius:12px;padding:18px;
+      overflow:auto;font-size:13.5px;line-height:1.85;color:#cfe0ff}
+    pre .c{color:var(--text-muted)} pre .k{color:var(--gold)} pre .s{color:var(--green)} pre .p{color:var(--purple)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:18px 0}
+    .card{background:var(--panel);border:1px solid var(--border-dim);border-radius:12px;padding:18px 20px}
+    .card h3{margin-top:0}
+    .card p{color:var(--text-secondary);font-size:14px;margin:.3em 0 0}
+    .flow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:16px 0;color:var(--text-secondary);font-size:14px}
+    .flow .step{background:rgba(245,183,49,0.06);border:1px solid var(--border);border-radius:999px;padding:6px 14px;color:var(--text-primary)}
+    .flow .arrow{color:var(--text-muted)}
+    .cta{display:inline-block;margin:6px 10px 0 0;border:1px solid var(--border);border-radius:8px;
+      padding:10px 18px;color:var(--gold);background:rgba(245,183,49,0.06);font-weight:600}
+    .cta.primary{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+    .note{background:var(--panel);border:1px solid var(--border-dim);border-left:3px solid var(--gold);
+      border-radius:8px;padding:12px 16px;margin:18px 0;color:var(--text-secondary);font-size:14px}
+    .muted{color:var(--text-muted)}
+    footer{margin-top:52px;border-top:1px solid var(--border-dim);padding-top:18px;color:var(--text-muted);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">BitValue</div>
+      <nav><a href="/">Home</a> · <a href="/schema/bsl/v1/">Language spec</a> · <a href="/schema/strategy-manifest/v1/">Manifest schema</a></nav>
+    </header>
+
+    <section class="hero">
+      <div class="kicker">BitValue Strategy Language</div>
+      <h1>Write quant strategies in JavaScript.</h1>
+      <p>BSL is an embedded JavaScript DSL. Your strategy is a single <code>.js</code> file that BitValue's research
+      engine (Athena) runs bar-by-bar over 10+ years of market data. Edit the file, re-run the backtest — no recompile,
+      no rebuild. The <em>same</em> source can later drive live execution, so what you backtest is what you trade.</p>
+      <div>
+        <a class="cta primary" href="/schema/bsl/v1/">Read the language spec →</a>
+        <a class="cta" href="/schema/bsl/v1/descriptor.json">descriptor.json</a>
+      </div>
+    </section>
+
+    <h2>Why BSL</h2>
+    <div class="grid">
+      <div class="card"><h3>Zero recompile</h3><p>The strategy is data, not a binary. Change a rule or a parameter, re-run the backtest immediately.</p></div>
+      <div class="card"><h3>JavaScript, not a toy DSL</h3><p>Real variables, <code>if</code>, helper methods. Stateful logic (retest machines, counters) is just <code>this.x</code> — no custom-language gymnastics.</p></div>
+      <div class="card"><h3>Backtest = live</h3><p>One source feeds both research and signal generation, eliminating the Pine→engine rewrite drift.</p></div>
+      <div class="card"><h3>Deterministic &amp; sandboxed</h3><p>No clock, no randomness, no I/O. Same inputs ⇒ same result, every time. Reproducibility is enforced, not hoped for.</p></div>
+    </div>
+
+    <h2>What a strategy looks like</h2>
+<pre><span class="c">// @bsl bitvalue.io/schema/bsl/v1</span>
+<span class="k">strategy</span>({
+  name: <span class="s">"eth15m"</span>,
+  params: { er_threshold_long: <span class="p">60</span> },
+
+  <span class="k">setup</span>(p) {                          <span class="c">// runs once: build indicators</span>
+    this.er   = ind.<span class="k">ER</span>(<span class="p">14</span>);
+    this.psar = ind.<span class="k">CustomATRPSAR</span>(<span class="p">0.01</span>, <span class="p">0.03</span>, <span class="p">14</span>);
+  },
+
+  <span class="k">onBar</span>(c, pos, p) {                   <span class="c">// runs once per closed bar</span>
+    if (pos.flat && this.psar.trendDir === <span class="p">1</span> && this.er.value &gt;= p.er_threshold_long) {
+      <span class="k">enterLong</span>(<span class="s">"TREND_LONG"</span>, { tp: [[<span class="p">.05</span>,<span class="p">.30</span>],[<span class="p">.10</span>,<span class="p">.15</span>]], sl: <span class="p">.03</span> });
+    }
+    if (pos.long && this.psar.<span class="k">flipped</span>()) <span class="k">close</span>(<span class="s">"PSAR_EXIT"</span>);
+    <span class="k">plot</span>(<span class="s">"Custom PSAR"</span>, this.psar.value);
+  },
+});</pre>
+    <p class="lead">Build indicators in <code>setup()</code>; read them and emit at most one position action per bar in
+    <code>onBar()</code>. Take-profit ladders and stop-losses are declared inline; the engine compiles them into
+    protective orders. <a href="/schema/bsl/v1/">Full host API →</a></p>
+
+    <h2>How it fits the platform</h2>
+    <div class="flow">
+      <span class="step">Write <code>.js</code></span>
+      <span class="arrow">→</span>
+      <span class="step">Athena backtest</span>
+      <span class="arrow">→</span>
+      <span class="step">Golden-compare vs TradingView</span>
+      <span class="arrow">→</span>
+      <span class="step">Same source → live signals</span>
+    </div>
+    <p class="lead">Each strategy ships with a <a href="/schema/strategy-manifest/v1/">manifest</a> — its identity, market,
+    parameters, data needs, signal contract, risk constraints and admission state — the single source of truth shared
+    by backtest and live so the two never drift.</p>
+
+    <div class="note">
+      <strong>For tools &amp; AI agents:</strong> the language is defined at
+      <a href="/schema/bsl/v1/"><code>bitvalue.io/schema/bsl/v1</code></a> (human +
+      <a href="/schema/bsl/v1/descriptor.json">machine-readable descriptor</a>); the manifest schema at
+      <a href="/schema/strategy-manifest/v1/"><code>bitvalue.io/schema/strategy-manifest/v1</code></a>
+      (human + <a href="/schema/strategy-manifest/v1/manifest.schema.json">JSON Schema</a>). The
+      <code>// @bsl …</code> header in every strategy dereferences to its definition.
+    </div>
+
+    <footer>
+      <a href="/">← bitvalue.io</a> · <a href="/schema/bsl/v1/">BSL v1 spec</a> ·
+      <a href="/schema/strategy-manifest/v1/">Manifest v1 schema</a>
+      <div class="muted" style="margin-top:8px">BSL runs inside BitValue Research (Athena). It is a strategy authoring &amp; backtesting language; live order placement, risk control and reconciliation remain the execution layer's responsibility.</div>
+    </footer>
+  </div>
+</body>
+</html>

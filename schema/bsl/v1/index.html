@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSL Language v1 — bitvalue.io/schema/bsl/v1</title>
+  <meta name="description" content="Definition of BSL (BitValue Strategy Language) language v1 — the embedded JavaScript strategy DSL run bar-by-bar by Athena. Host API reference: indicators, bar context, position actions, plot, determinism." />
+  <meta name="robots" content="index, follow" />
+  <link rel="alternate" type="application/json" href="/schema/bsl/v1/descriptor.json" />
+  <style>
+    :root{
+      --gold:#F5B731; --gold-dim:#c9912a; --navy:#0A1628; --bg:#060e1a;
+      --panel:#0d1b30; --text-primary:#f0f4ff; --text-secondary:#8fa4c8;
+      --text-muted:#4e6a90; --border:rgba(245,183,49,0.16); --border-dim:rgba(255,255,255,0.06);
+      --green:#48bb78; --purple:#a78bfa;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--navy);color:var(--text-primary);
+      font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.7;font-size:15px}
+    a{color:var(--gold);text-decoration:none}
+    a:hover{text-decoration:underline}
+    code,.mono{font-family:'Courier New',monospace}
+    .wrap{max-width:920px;margin:0 auto;padding:32px 20px 80px}
+    header.top{display:flex;align-items:center;justify-content:space-between;
+      border-bottom:1px solid var(--border-dim);padding-bottom:16px;margin-bottom:28px}
+    header.top .brand{font-weight:700;color:var(--gold);letter-spacing:.5px}
+    .pill{display:inline-block;font-size:11px;border:1px solid var(--border);border-radius:999px;
+      padding:2px 10px;color:var(--gold);background:rgba(245,183,49,0.06);margin-left:8px}
+    h1{font-size:30px;margin:.2em 0 .1em}
+    h2{font-size:21px;margin:2em 0 .6em;border-bottom:1px solid var(--border-dim);padding-bottom:6px}
+    h3{font-size:16px;margin:1.4em 0 .4em;color:var(--gold)}
+    .uri{font-size:13px;color:var(--text-secondary);margin-bottom:6px}
+    .lede{color:var(--text-secondary);font-size:16px}
+    .note{background:var(--panel);border:1px solid var(--border-dim);border-left:3px solid var(--gold);
+      border-radius:8px;padding:12px 16px;margin:18px 0;color:var(--text-secondary);font-size:14px}
+    pre{background:var(--bg);border:1px solid var(--border-dim);border-radius:10px;padding:16px;
+      overflow:auto;font-size:13px;line-height:1.8;color:#cfe0ff}
+    pre .c{color:var(--text-muted)} pre .k{color:var(--gold)} pre .s{color:var(--green)} pre .p{color:var(--purple)}
+    table{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:13.5px}
+    th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border-dim);vertical-align:top}
+    th{color:var(--text-secondary);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+    td code{color:var(--gold)}
+    .muted{color:var(--text-muted)}
+    footer{margin-top:48px;border-top:1px solid var(--border-dim);padding-top:18px;
+      color:var(--text-muted);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">BitValue<span class="muted" style="font-weight:400"> / schema</span></div>
+      <nav><a href="/">bitvalue.io</a> · <a href="/bsl/">What is BSL?</a> · <a href="/schema/bsl/v1/descriptor.json">descriptor.json</a></nav>
+    </header>
+
+    <div class="uri mono">bitvalue.io/schema/bsl/v1 <span class="pill">stable</span></div>
+    <h1>BSL Language — v1</h1>
+    <p class="lede">BSL (<strong>BitValue Strategy Language</strong>) is an embedded JavaScript (ES5.1+) DSL.
+    A strategy is a <code>.js</code> file executed bar-by-bar by Athena's <code>goja</code> runtime, then fed
+    into the existing backtest matching engine and golden-compare. This page is the canonical definition that a
+    strategy's <code>// @bsl bitvalue.io/schema/bsl/v1</code> header dereferences to.</p>
+
+    <div class="note">
+      <strong>Machine-readable:</strong> <a href="/schema/bsl/v1/descriptor.json">descriptor.json</a>
+      (<code>$id: https://bitvalue.io/schema/bsl/v1</code>) describes the same host API surface for tools and AI agents.
+      It is a <em>surface descriptor</em>, not a JSON Schema for validating data.
+    </div>
+
+    <h2>1 · Declaring the language version</h2>
+    <p>Every BSL strategy starts with a magic header comment declaring the language version. The runtime parses it
+    and validates it against its supported set; a missing or unknown URI is a <strong>hard error</strong> — it is
+    never silently treated as v1.</p>
+<pre><span class="c">// @bsl bitvalue.io/schema/bsl/v1</span></pre>
+
+    <h2>2 · Strategy shape</h2>
+    <p>A strategy calls the host-provided <code>strategy({...})</code> once to register itself.</p>
+<pre><span class="c">// @bsl bitvalue.io/schema/bsl/v1</span>
+<span class="k">strategy</span>({
+  name: <span class="s">"eth15m"</span>,                          <span class="c">// must equal manifest identity name</span>
+  params: { er_period: <span class="p">14</span>, er_threshold_long: <span class="p">60</span> },  <span class="c">// defaults; manifest overrides</span>
+
+  <span class="k">setup</span>(p) {                                <span class="c">// runs once: build indicators + persistent state</span>
+    this.er   = ind.<span class="k">ER</span>(p.er_period);
+    this.psar = ind.<span class="k">CustomATRPSAR</span>(p.psar_start, p.psar_inc, p.atr_len);
+    this.retestCount = <span class="p">0</span>;                     <span class="c">// persistent state = plain this.* field</span>
+  },
+
+  <span class="k">onBar</span>(c, pos, p) {                         <span class="c">// runs once per closed bar</span>
+    if (pos.flat && this.psar.trendDir === <span class="p">1</span> && this.er.value &gt;= p.er_threshold_long) {
+      <span class="k">enterLong</span>(<span class="s">"TREND_LONG"</span>, { tp: [[<span class="p">.05</span>,<span class="p">.30</span>],[<span class="p">.10</span>,<span class="p">.15</span>]], sl: <span class="p">.03</span>, slMode: <span class="s">"strategy_managed"</span> });
+    }
+    if (pos.long && this.psar.<span class="k">flipped</span>()) <span class="k">close</span>(<span class="s">"PSAR_EXIT"</span>);
+    <span class="k">plot</span>(<span class="s">"Custom PSAR"</span>, this.psar.value, { style: <span class="s">"cross"</span>, pane: <span class="s">"main"</span> });
+  },
+});</pre>
+
+    <h2>3 · Indicators — <code>ind.*</code></h2>
+    <p>Constructed in <code>setup()</code>. Backed by <code>strategy-lib/indicators</code> (the same types the native Go
+    engine uses, so factor values are identical bar-for-bar). The runtime advances every indicator each closed bar;
+    <code>onBar</code> only reads them.</p>
+    <table>
+      <tr><th>Constructor</th><th>Defaults</th><th>Reads</th></tr>
+      <tr><td><code>ind.ER(period)</code></td><td>14</td><td><code>.value</code></td></tr>
+      <tr><td><code>ind.ATR(period)</code></td><td>14</td><td><code>.value</code></td></tr>
+      <tr><td><code>ind.ATRRank(atrLength, window)</code></td><td>14, 300</td><td><code>.value</code></td></tr>
+      <tr><td><code>ind.VolRatio(fastLength, slowLength)</code></td><td>14, 300</td><td><code>.value</code> (=fastATR/slowATR)</td></tr>
+      <tr><td><code>ind.CustomATRPSAR(start, increment, atrLength, longMax, shortMax, minDistMult)</code></td><td>0.01, 0.03, 14, 0.06, 0.06, 5.0</td><td>PSAR fields ↓</td></tr>
+      <tr><td><code>ind.PSARDirectional(start, longIncrement, shortIncrement, atrLength, longMax, shortMax, minDistMult)</code></td><td>0.01, 0.03, 0.06, 14, 10, 12, 5.0</td><td>PSAR fields ↓</td></tr>
+    </table>
+    <h3>PSAR handle fields</h3>
+    <table>
+      <tr><th>Field</th><th>Meaning</th></tr>
+      <tr><td><code>.value</code> / <code>.psar</code></td><td>SAR level at the current bar</td></tr>
+      <tr><td><code>.trendDir</code></td><td>+1 long, −1 short</td></tr>
+      <tr><td><code>.trendBars</code></td><td>bars held in the current trend direction</td></tr>
+      <tr><td><code>.ep</code> / <code>.af</code></td><td>extreme point / acceleration factor</td></tr>
+      <tr><td><code>.flipped()</code></td><td>true on the bar the trend direction changed (initialized trends only)</td></tr>
+    </table>
+
+    <h2>4 · Bar context — <code>c</code>, <code>pos</code>, <code>p</code></h2>
+    <table>
+      <tr><th>Object</th><th>Fields</th></tr>
+      <tr><td><code>c</code> (candle)</td><td><code>time</code> (bar open, epoch s), <code>closeTime</code> (epoch s), <code>open</code>, <code>high</code>, <code>low</code>, <code>close</code></td></tr>
+      <tr><td><code>pos</code> (position)</td><td><code>inPosition</code>, <code>flat</code>, <code>long</code>, <code>short</code>, <code>direction</code> ("long"|"short"|""), <code>avgPrice</code>, <code>entryPrice</code>, <code>qty</code>, <code>barsSinceEntry</code></td></tr>
+      <tr><td><code>p</code> (params)</td><td>resolved parameters (strategy <code>params</code> defaults overridden by the manifest)</td></tr>
+    </table>
+
+    <h2>5 · Position actions</h2>
+    <div class="note"><strong>One signal per bar.</strong> <code>onBar</code> may emit at most one position action.
+    The first wins; a second, <em>different</em> action in the same bar is a hard runtime error — guard with
+    <code>pos.flat/long/short</code>. An identical repeat is a no-op. <code>plot()</code> is not a position action.</div>
+    <table>
+      <tr><th>Verb</th><th>Signature</th></tr>
+      <tr><td><code>enterLong</code></td><td><code>enterLong(signalType, { tp, sl, slMode })</code></td></tr>
+      <tr><td><code>enterShort</code></td><td><code>enterShort(signalType, { tp, sl, slMode })</code></td></tr>
+      <tr><td><code>close</code></td><td><code>close(reason)</code></td></tr>
+      <tr><td><code>flipLong</code></td><td><code>flipLong(signalType = "TREND_FLIP", { tp, sl, slMode })</code></td></tr>
+      <tr><td><code>flipShort</code></td><td><code>flipShort(signalType = "TREND_FLIP", { tp, sl, slMode })</code></td></tr>
+    </table>
+    <h3>Protective-order spec (2nd arg of enter*/flip*)</h3>
+    <table>
+      <tr><th>Key</th><th>Type</th><th>Meaning</th></tr>
+      <tr><td><code>tp</code></td><td><code>[[offset, qty], …]</code></td><td>take-profit ladder; <code>offset</code> = price fraction from entry, <code>qty</code> = fraction of position closed at that rung</td></tr>
+      <tr><td><code>sl</code></td><td>number</td><td>stop-loss as a price fraction from entry (e.g. <code>0.03</code> = 3%)</td></tr>
+      <tr><td><code>slMode</code></td><td><code>"enforced"</code> | <code>"strategy_managed"</code></td><td>enforced = exchange-side SL (default, fail-safe); strategy_managed = named exemption, the strategy's own PSAR/CLOSE owns the exit (hermes AGENTS §9)</td></tr>
+    </table>
+    <p class="muted" style="font-size:13px">Signal-type / exit-reason strings must align with the canonical values in <code>signal.go</code> so golden-compare can map them.</p>
+
+    <h2>6 · Plot</h2>
+    <p><code>plot(name, value, { style, pane, color })</code> emits one named per-bar series → a column in
+    <code>indicators.parquet</code>. <code>value = null</code> means sparse/skipped for that bar (e.g. only plot a
+    Long SL while long). Align <code>name</code> with TradingView golden column names for indicator-level golden compare.
+    <code>style</code> (line|cross|circles|histogram), <code>pane</code> (main|sub) and <code>color</code> are chart-spec
+    hints for the frontend renderer and do not affect signals.</p>
+
+    <h2>7 · Determinism &amp; sandbox</h2>
+    <p>Backtests must be reproducible: same <code>.js</code> + same bars + same params ⇒ same result.</p>
+    <ul>
+      <li><code>Date</code> is removed and <code>Math.random</code> is disabled — use <code>c.time</code> for time.</li>
+      <li>No filesystem, network, process, or <code>require</code>; a fresh VM per run.</li>
+      <li>Script errors / timeouts fail-fast with location and never pollute a backtest.</li>
+    </ul>
+
+    <h2>8 · Versioning</h2>
+    <p>Two independent layers:</p>
+    <ul>
+      <li><strong>Language version</strong> — this URI (<code>bitvalue.io/schema/bsl/vN</code>). A breaking
+      language/semantic change bumps to a new URI (<code>…/v2</code>); backward-compatible host API additions do not.</li>
+      <li><strong>Strategy version</strong> — strategy identity <code>family@version</code> (e.g. <code>eth15m@2026q3</code>),
+      governed by the <a href="/schema/strategy-manifest/v1/">strategy manifest</a>.</li>
+    </ul>
+
+    <footer>
+      Canonical source of truth: <span class="mono">github.com/BitValue-Quant/athena</span> →
+      <span class="mono">internal/bsl/{hostapi.go, bsl.go, sandbox.go}</span> and
+      <span class="mono">bsl.SupportedSchemas</span>. This page is synced from that source; on any conflict, the source wins.
+      · Related: <a href="/schema/strategy-manifest/v1/">strategy-manifest/v1</a> · <a href="/bsl/">What is BSL?</a>
+    </footer>
+  </div>
+</body>
+</html>
