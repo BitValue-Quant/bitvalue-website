@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bitvalue.io/schema/strategy-manifest/v1",
+  "title": "BitValue Strategy Manifest, schema v1.0",
+  "description": "JSON Schema for a strategy asset's manifest.yaml — the single source of truth for a strategy: identity (family@version), market/symbol/timeframe, engine/ABI, parameter schema, data requirements, signal contract, risk constraints and admission state. Shared contract between Athena (backtest) and hermes/signal (live signal generation) to avoid backtest/live drift. The authoritative definition is the Athena source under `$comment`; this published schema is synced from it. Note: some manifest rules are cross-field/runtime checks (e.g. warmup_minutes == lookback_bars × timeframe; family/version must match the asset directory; live_allowed requires a protective SL or the named strategy_managed exemption) and are enforced by `athena strategy validate`, not by this structural schema alone.",
+  "$comment": "Source of truth: github.com/BitValue-Quant/athena internal/manifest/{manifest.go,validate.go}; spec: genie tech-design/athena/strategy-manifest-schema.md. Synced at athena aa65d05.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "name",
+    "family",
+    "version",
+    "market",
+    "symbol",
+    "timeframe",
+    "engine",
+    "data_requirements",
+    "risk",
+    "admission"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "description": "Manifest schema version. This build supports \"1.0\"; other values are accepted with a warning."
+    },
+    "name": { "type": "string", "minLength": 1, "description": "Human-readable strategy name." },
+    "family": { "type": "string", "minLength": 1, "description": "Strategy family — left half of the family@version locator; must match the asset directory." },
+    "version": { "type": ["string", "number"], "description": "Strategy version — right half of family@version (e.g. \"2026q3\")." },
+    "strategy_lineage": { "type": "string", "description": "Source/Pine strategy lineage (optional)." },
+    "description": { "type": "string" },
+
+    "market": { "type": "string", "minLength": 1, "examples": ["crypto", "equity", "metal"], "description": "Market class." },
+    "market_type": { "type": "string", "examples": ["SPOT", "USDT_PERP", "US_EQUITY"] },
+    "symbol": { "type": "string", "minLength": 1, "description": "Research/live symbol (a backtest config may override)." },
+    "timeframe": { "type": "string", "minLength": 1, "examples": ["5m", "15m", "1h"], "description": "Bar timeframe; suffix m|h|d." },
+    "exchanges": { "type": "array", "items": { "type": "string" }, "description": "Applicable exchanges / data sources." },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional trading-session constraint (equity/metal).",
+      "properties": {
+        "type": { "type": "string", "examples": ["24x7", "rth", "rth_ext"] },
+        "timezone": { "type": "string" }
+      }
+    },
+
+    "engine": {
+      "type": "object",
+      "description": "Engine + ABI.",
+      "required": ["kind"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["so", "go", "python", "bsl"],
+          "description": "go = native strategy-lib engine; bsl = goja-interpreted .js (main research path); so/python = frozen legacy stacks."
+        },
+        "abi_version": { "type": "integer", "description": "qb ABI version; used by the .so path. go/bsl do not need it (a 0/unset value warns)." },
+        "library": { "type": "string", "description": ".so path; empty for in-process go / bsl." },
+        "entrypoint": { "type": "string", "description": "Strategy source relative to the manifest dir. REQUIRED when kind=bsl (the .js run by goja); ignored for go/.so." },
+        "language": { "type": "string", "examples": ["go", "js"] },
+        "signal_output_schema": { "type": "string", "examples": ["v1"] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "bsl" } } },
+          "then": { "required": ["entrypoint"], "properties": { "entrypoint": { "minLength": 1 } } }
+        }
+      ]
+    },
+
+    "parameters": {
+      "type": "array",
+      "description": "Tunable/static parameter schema.",
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "default"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "enum": ["int", "float", "bool", "enum"] },
+          "default": {},
+          "min": { "type": "number" },
+          "max": { "type": "number" },
+          "step": { "type": "number" },
+          "options": { "type": "array", "items": { "type": "string" }, "description": "Required when type=enum." },
+          "title": { "type": "string" },
+          "hint": { "type": "string" },
+          "group": { "type": "string" },
+          "tunable": { "type": "boolean", "description": "If false, excluded from parameter grid / plateau scans." }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "type": { "const": "enum" } } },
+            "then": { "required": ["options"], "properties": { "options": { "minItems": 1 } } }
+          }
+        ]
+      }
+    },
+
+    "builtins": {
+      "type": "array",
+      "description": "Fixed runtime parameters.",
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "default"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string" },
+          "default": {}
+        }
+      }
+    },
+
+    "data_requirements": {
+      "type": "object",
+      "required": ["input_types", "lookback_bars"],
+      "additionalProperties": false,
+      "properties": {
+        "input_types": { "type": "array", "minItems": 1, "items": { "type": "string" }, "examples": [["OHLCV"]] },
+        "lookback_bars": { "type": "integer", "minimum": 1, "description": "History bars required for warmup." },
+        "warmup_minutes": { "type": "integer", "minimum": 0, "description": "Should equal lookback_bars × timeframe (runtime warns otherwise)." },
+        "state_persist": { "type": "array", "items": { "type": "string" }, "description": "State to persist across restarts (ABI v4)." }
+      }
+    },
+
+    "signal_output": {
+      "type": "object",
+      "description": "Produced-signal contract (cross-checked against the execution layer).",
+      "additionalProperties": false,
+      "properties": {
+        "actions": { "type": "array", "items": { "type": "string" }, "description": "strategy-lib signal.Action strings, e.g. ENTER_LONG, CLOSE_LONG, FLIP_TO_LONG." },
+        "signal_types": { "type": "array", "items": { "type": "string" }, "examples": [["TREND_LONG", "RISKY_LONG"]] },
+        "exit_reasons": { "type": "array", "items": { "type": "string" } },
+        "indicator_fields": { "type": "array", "items": { "type": "string" } },
+        "emits_desired_orders": { "type": "boolean" }
+      }
+    },
+
+    "risk": {
+      "type": "object",
+      "description": "Research/admission risk constraints (not execution config). Hard-checks per hermes AGENTS.md §9.",
+      "required": ["reduce_only_close", "has_protective_sl"],
+      "additionalProperties": false,
+      "properties": {
+        "max_leverage": { "type": "number" },
+        "max_notional_pct": { "type": "number" },
+        "sl_protection_mode": { "type": "string", "enum": ["enforced", "strategy_managed"], "description": "enforced = exchange-side SL required; strategy_managed = named exemption, strategy owns the exit." },
+        "has_protective_sl": { "type": "boolean", "description": "Required true when live_allowed=true, unless sl_protection_mode=strategy_managed (runtime cross-check)." },
+        "reduce_only_close": { "const": true, "description": "Must be true — close orders are reduce-only (AGENTS §9)." },
+        "flip_two_phase": { "type": "boolean", "description": "Must be true when the strategy emits FLIP actions (runtime cross-check)." },
+        "tp_structure": { "type": "string" },
+        "sl_strategy": { "type": "string" }
+      }
+    },
+
+    "admission": {
+      "type": "object",
+      "description": "Governance/admission state.",
+      "required": ["state", "paper_allowed", "live_allowed"],
+      "additionalProperties": false,
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "pine_mapped",
+            "engine_implemented",
+            "golden_aligned",
+            "backtest_passed",
+            "walkforward_passed",
+            "health_check_passed",
+            "paper_approved",
+            "live_small_cap_approved",
+            "live_scaled",
+            "deprecated"
+          ]
+        },
+        "paper_allowed": { "type": "boolean" },
+        "live_allowed": { "type": "boolean", "description": "Default false. When true: requires a protective SL (or strategy_managed exemption) and a reviewer (runtime cross-check)." },
+        "reviewer": { "type": "string", "description": "Required when live_allowed=true." },
+        "approved_at": { "type": "string" }
+      }
+    },
+
+    "provenance": {
+      "type": "object",
+      "description": "Lineage/audit metadata.",
+      "additionalProperties": false,
+      "properties": {
+        "source_commit": { "type": "string" },
+        "pine_source": { "type": "string" },
+        "review_doc": { "type": "string" },
+        "mapping_doc": { "type": "string" },
+        "created_at": { "type": "string" },
+        "updated_at": { "type": "string" }
+      }
+    }
+  }
+}

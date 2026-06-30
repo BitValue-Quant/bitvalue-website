@@ -32,6 +32,12 @@ Self-taught (retail) quantitative traders who want to:
 3. Protect their algorithmic IP
 4. Monetize proven strategies through the Signal marketplace
 
+## Developer & Schema Definitions
+
+- **BSL (BitValue Strategy Language)**: write quant strategies in JavaScript, run bar-by-bar by the Athena research engine. Intro: https://bitvalue.io/bsl/
+- **BSL language v1 definition**: https://bitvalue.io/schema/bsl/v1/ (human) and https://bitvalue.io/schema/bsl/v1/descriptor.json (machine-readable host API descriptor). A strategy declares this version with the header `// @bsl bitvalue.io/schema/bsl/v1`.
+- **Strategy Manifest schema v1**: https://bitvalue.io/schema/strategy-manifest/v1/ (human) and https://bitvalue.io/schema/strategy-manifest/v1/manifest.schema.json (JSON Schema 2020-12). The single source of truth for a strategy asset's manifest.yaml (identity, market, engine, parameters, data, signal contract, risk, admission).
+
 ## Contact
 
 - Website: https://bitvalue.io

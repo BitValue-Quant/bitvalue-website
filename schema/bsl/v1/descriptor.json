@@ -1,0 +1,249 @@
+{
+  "$id": "https://bitvalue.io/schema/bsl/v1",
+  "$comment": "This is a host-API surface descriptor for the BSL language, NOT a JSON Schema for validating data. See https://bitvalue.io/schema/bsl/v1/ for the human-readable definition.",
+  "title": "BSL — BitValue Strategy Language, language v1",
+  "description": "Machine-readable surface descriptor for BSL v1, the embedded JavaScript (goja, ES5.1+) strategy DSL executed bar-by-bar by Athena's backtest runtime. This document describes the host API a strategy `.js` may call; it is NOT a JSON Schema for validating data. A strategy declares this language version with a magic header comment `// @bsl bitvalue.io/schema/bsl/v1`. The authoritative definition is the Athena source listed under `sourceOfTruth`; this published descriptor is generated/synced from it and may lag — on conflict, the source wins.",
+  "schemaVersion": "v1",
+  "namespaceURI": "bitvalue.io/schema/bsl/v1",
+  "status": "stable",
+  "runtime": {
+    "engine": "goja",
+    "language": "JavaScript (ES5.1+)",
+    "executionModel": "bar-by-bar; one strategy instance per backtest run",
+    "host": "Athena internal/bsl"
+  },
+  "sourceOfTruth": {
+    "repo": "github.com/BitValue-Quant/athena",
+    "files": [
+      "internal/bsl/hostapi.go",
+      "internal/bsl/bsl.go",
+      "internal/bsl/sandbox.go"
+    ],
+    "supportedSchemasSymbol": "bsl.SupportedSchemas",
+    "designDoc": "genie tech-design/athena/bsl-language-and-runner.md",
+    "syncedAtCommit": "aa65d05"
+  },
+  "header": {
+    "magicComment": "// @bsl bitvalue.io/schema/bsl/v1",
+    "regex": "(?m)^\\s*//\\s*@bsl\\s+(\\S+)\\s*$",
+    "required": true,
+    "onMissingOrUnknown": "fail-fast (the runtime never silently treats an unknown/absent URI as v1)"
+  },
+  "registration": {
+    "global": "strategy",
+    "signature": "strategy({ name, params, setup(p), onBar(c, pos, p) })",
+    "fields": {
+      "name": {
+        "type": "string",
+        "required": true,
+        "note": "must equal manifest.identity name"
+      },
+      "params": {
+        "type": "object",
+        "required": false,
+        "note": "default parameter values; the manifest overrides these (manifest is the single source of truth for values)"
+      },
+      "setup": {
+        "type": "function",
+        "signature": "setup(p)",
+        "required": true,
+        "note": "runs once before the first bar; build indicators and seed persistent `this.*` state here"
+      },
+      "onBar": {
+        "type": "function",
+        "signature": "onBar(c, pos, p)",
+        "required": true,
+        "note": "runs once per closed bar; read indicators, emit at most one position action, plot series"
+      }
+    },
+    "persistentState": "fields assigned to `this` (the strategy object) survive across bars for the whole run"
+  },
+  "indicators": {
+    "namespace": "ind",
+    "note": "constructed inside setup(); backed by github.com/BitValue-Quant/strategy-lib/indicators (the same types the native Go engine uses, so factor values are identical bar-for-bar). The runtime advances every indicator with each closed bar; onBar only reads them.",
+    "constructors": {
+      "ER": {
+        "signature": "ind.ER(period = 14)",
+        "args": [{ "name": "period", "type": "int", "default": 14 }],
+        "returns": ["value"],
+        "desc": "Kaufman Efficiency Ratio (0..100)."
+      },
+      "ATR": {
+        "signature": "ind.ATR(period = 14)",
+        "args": [{ "name": "period", "type": "int", "default": 14 }],
+        "returns": ["value"],
+        "desc": "Average True Range."
+      },
+      "ATRRank": {
+        "signature": "ind.ATRRank(atrLength = 14, window = 300)",
+        "args": [
+          { "name": "atrLength", "type": "int", "default": 14 },
+          { "name": "window", "type": "int", "default": 300 }
+        ],
+        "returns": ["value"],
+        "desc": "Percentile rank of current ATR within a rolling window (0..100)."
+      },
+      "VolRatio": {
+        "signature": "ind.VolRatio(fastLength = 14, slowLength = 300)",
+        "args": [
+          { "name": "fastLength", "type": "int", "default": 14 },
+          { "name": "slowLength", "type": "int", "default": 300 }
+        ],
+        "returns": ["value"],
+        "desc": "fastATR / slowATR (0 when slowATR <= 0)."
+      },
+      "CustomATRPSAR": {
+        "signature": "ind.CustomATRPSAR(start = 0.01, increment = 0.03, atrLength = 14, longMax = 0.06, shortMax = 0.06, minDistMult = 5.0)",
+        "args": [
+          { "name": "start", "type": "float", "default": 0.01 },
+          { "name": "increment", "type": "float", "default": 0.03 },
+          { "name": "atrLength", "type": "int", "default": 14 },
+          { "name": "longMax", "type": "float", "default": 0.06 },
+          { "name": "shortMax", "type": "float", "default": 0.06 },
+          { "name": "minDistMult", "type": "float", "default": 5.0 }
+        ],
+        "returns": ["value", "trendDir", "trendBars", "ep", "af", "psar", "flipped()"],
+        "desc": "ATR-distanced Parabolic SAR (symmetric long/short acceleration)."
+      },
+      "PSARDirectional": {
+        "signature": "ind.PSARDirectional(start = 0.01, longIncrement = 0.03, shortIncrement = 0.06, atrLength = 14, longMax = 10, shortMax = 12, minDistMult = 5.0)",
+        "args": [
+          { "name": "start", "type": "float", "default": 0.01 },
+          { "name": "longIncrement", "type": "float", "default": 0.03 },
+          { "name": "shortIncrement", "type": "float", "default": 0.06 },
+          { "name": "atrLength", "type": "int", "default": 14 },
+          { "name": "longMax", "type": "float", "default": 10 },
+          { "name": "shortMax", "type": "float", "default": 12 },
+          { "name": "minDistMult", "type": "float", "default": 5.0 }
+        ],
+        "returns": ["value", "trendDir", "trendBars", "ep", "af", "psar", "flipped()"],
+        "desc": "Direction-relative ATR-PSAR (asymmetric long/short acceleration; SOXL-style long buffering)."
+      }
+    },
+    "handleFields": {
+      "value": "number — indicator value at the current bar",
+      "trendDir": "int (PSAR only) — +1 long, -1 short",
+      "trendBars": "int (PSAR only) — bars held in the current trend direction",
+      "ep": "number (PSAR only) — extreme point",
+      "af": "number (PSAR only) — acceleration factor",
+      "psar": "number (PSAR only) — the SAR level (same as value)",
+      "flipped()": "bool (PSAR only) — true on the bar the trend direction changed (initialized trends only)"
+    }
+  },
+  "barContext": {
+    "candle": {
+      "var": "c",
+      "fields": {
+        "time": "int — bar OPEN time, epoch seconds (matches TradingView export)",
+        "closeTime": "int — bar close time, epoch seconds",
+        "open": "number",
+        "high": "number",
+        "low": "number",
+        "close": "number"
+      }
+    },
+    "position": {
+      "var": "pos",
+      "fields": {
+        "inPosition": "bool",
+        "flat": "bool",
+        "long": "bool",
+        "short": "bool",
+        "direction": "string — \"long\" | \"short\" | \"\"",
+        "avgPrice": "number — average entry price",
+        "entryPrice": "number — alias of avgPrice",
+        "qty": "number — position quantity",
+        "barsSinceEntry": "int — bars held since entry"
+      }
+    },
+    "params": {
+      "var": "p",
+      "note": "resolved parameters (strategy `params` defaults overridden by the manifest)"
+    }
+  },
+  "actions": {
+    "note": "Position verbs. The single-Signal-per-bar contract: onBar may emit AT MOST ONE position action. The first wins; a second, DIFFERENT action in the same bar is a hard runtime error (guard with pos.flat/long/short). An identical repeat is a no-op. plot() is not a position action.",
+    "verbs": {
+      "enterLong": {
+        "signature": "enterLong(signalType, { tp, sl, slMode })",
+        "args": [
+          { "name": "signalType", "type": "string", "note": "e.g. TREND_LONG / RISKY_LONG; must align with signal.go canonical values" },
+          { "name": "protect", "type": "object", "note": "optional protective-order spec, see protect" }
+        ]
+      },
+      "enterShort": {
+        "signature": "enterShort(signalType, { tp, sl, slMode })",
+        "args": [
+          { "name": "signalType", "type": "string" },
+          { "name": "protect", "type": "object" }
+        ]
+      },
+      "close": {
+        "signature": "close(reason)",
+        "args": [
+          { "name": "reason", "type": "string", "note": "exit reason / signal type, e.g. PSAR_EXIT / RETEST_EXIT_POST_TP; must align with signal.go" }
+        ]
+      },
+      "flipLong": {
+        "signature": "flipLong(signalType = \"TREND_FLIP\", { tp, sl, slMode })",
+        "args": [
+          { "name": "signalType", "type": "string", "default": "TREND_FLIP" },
+          { "name": "protect", "type": "object" }
+        ],
+        "note": "close opposite + open long; two-phase flip in execution"
+      },
+      "flipShort": {
+        "signature": "flipShort(signalType = \"TREND_FLIP\", { tp, sl, slMode })",
+        "args": [
+          { "name": "signalType", "type": "string", "default": "TREND_FLIP" },
+          { "name": "protect", "type": "object" }
+        ]
+      }
+    },
+    "protect": {
+      "desc": "optional second argument to enter*/flip* declaring protective orders compiled into signal.Signal.DesiredOrders",
+      "fields": {
+        "tp": {
+          "type": "array of [offset, qty] pairs",
+          "desc": "take-profit ladder; offset is a price fraction from entry, qty is the fraction of position closed at that rung. Example: [[0.05,0.30],[0.10,0.15],[0.15,0.15],[0.20,0.15],[0.25,0.15]]"
+        },
+        "sl": {
+          "type": "number",
+          "desc": "stop-loss as a price fraction from entry, e.g. 0.03 = 3%"
+        },
+        "slMode": {
+          "type": "string",
+          "enum": ["enforced", "strategy_managed"],
+          "desc": "enforced = exchange-side protective SL (default, fail-safe); strategy_managed = named exemption where the strategy's own PSAR/CLOSE signal owns the exit and no exchange SL is placed (see hermes AGENTS.md §9). Backtest sim honors both."
+        }
+      }
+    }
+  },
+  "plot": {
+    "signature": "plot(name, value, { style, pane, color })",
+    "args": [
+      { "name": "name", "type": "string", "note": "named series; align with TradingView golden column names for indicator-level golden compare (e.g. \"Custom PSAR\", \"Long SL\", \"Efficiency ratio\", \"ATR Rank\", \"Vol Ratio\")" },
+      { "name": "value", "type": "number|null", "note": "null = sparse/skipped for this bar (e.g. only plot Long SL while long)" },
+      { "name": "opts", "type": "object", "status": "reserved", "note": "FORWARD-LOOKING / not yet parsed by the v1 runtime. Planned chart-spec hints for the frontend renderer: style = line|cross|circles|histogram, pane = main|sub, color. The v1 runtime currently records only (name, value); this argument is accepted but ignored. Never affects signals." }
+    ],
+    "output": "one column in indicators.parquet per (name, value); not a position action",
+    "runtimeStatus": "v1 runtime parses (name, value) only; the opts chart-spec argument is defined ahead of implementation."
+  },
+  "determinism": {
+    "note": "Backtests must be reproducible: same .js + same bars + same params => same result.",
+    "removedGlobals": ["Date"],
+    "disabledGlobals": ["Math.random"],
+    "timeSource": "use c.time / c.closeTime instead of a wall clock",
+    "sandbox": "no filesystem, network, process, require; a fresh VM per run; script errors/timeouts fail-fast with location"
+  },
+  "versioning": {
+    "policy": "Breaking language/semantic changes bump the version (.../v2) and add a new URI. Backward-compatible host API additions do NOT bump. Multiple versions may coexist.",
+    "layers": {
+      "languageVersion": "this schema URI (bitvalue.io/schema/bsl/vN)",
+      "strategyVersion": "strategy identity family@version (e.g. eth15m@2026q3), governed by the manifest"
+    },
+    "related": {
+      "manifestSchema": "https://bitvalue.io/schema/strategy-manifest/v1"
+    }
+  }
+}
